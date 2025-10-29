@@ -6,6 +6,7 @@ import Login from './pages/Login'
 import JobSeekerDashboard from './pages/JobSeekerDashboard'
 import HRDashboard from './pages/HRDashboard'
 import { AuthProvider, ProtectedRoute } from './state/auth'
+import './index.css'
 
 const router = createBrowserRouter([
 	{ path: '/', element: <App /> },

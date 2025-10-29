@@ -2,6 +2,9 @@ import { useState } from 'react'
 import { useAuth } from '../state/auth'
 import { analyzeSingle } from '../lib/api'
 import { Link } from 'react-router-dom'
+import { Button } from '../components/ui/button'
+import { Textarea } from '../components/ui/textarea'
+import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card'
 
 export default function JobSeekerDashboard() {
 	const { token, user, logout } = useAuth()
@@ -27,32 +30,47 @@ export default function JobSeekerDashboard() {
 	}
 
 	return (
-		<div style={{ maxWidth: 900, margin: '32px auto', fontFamily: 'Inter, system-ui, Arial' }}>
-			<header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-				<h2>Job Seeker Dashboard</h2>
-				<div>
-					<span style={{ marginRight: 12 }}>{user?.email}</span>
-					<button onClick={logout}>Logout</button>
+		<div className="mx-auto max-w-5xl px-4 py-6">
+			<header className="flex items-center justify-between py-2">
+				<div className="flex items-center gap-3">
+					<Link to="/" className="text-sm text-muted-foreground hover:text-foreground">Home</Link>
+					<span className="text-muted-foreground">/</span>
+					<span className="font-medium">Job Seeker</span>
+				</div>
+				<div className="flex items-center gap-3 text-sm">
+					<span className="text-muted-foreground">{user?.email}</span>
+					<Button variant="outline" onClick={logout}>Logout</Button>
 				</div>
 			</header>
-			<p><Link to="/">Home</Link></p>
-			<div style={{ display: 'grid', gap: 16 }}>
-				<label>Job Description</label>
-				<textarea value={jd} onChange={(e) => setJd(e.target.value)} rows={8} style={{ width: '100%', padding: 8 }} />
-				<label>Upload Resume (PDF)</label>
-				<input type="file" accept="application/pdf" onChange={(e) => setFile(e.target.files?.[0] || null)} />
-				<button disabled={loading || !file || !jd} onClick={onAnalyze}>{loading ? 'Analyzing...' : 'Analyze'}</button>
-				{error && <div style={{ color: 'red' }}>{error}</div>}
-				{result && (
-					<div style={{ border: '1px solid #ddd', padding: 16, borderRadius: 8 }}>
-						<h3>Result</h3>
-						<p><strong>File:</strong> {result.filename}</p>
-						<p><strong>ATS Score:</strong> {(result.score * 100).toFixed(1)}%</p>
-						<p><strong>Keyword Match:</strong> {(result.keyword_match * 100).toFixed(1)}%</p>
-						<p>{result.summary}</p>
+
+			<Card>
+				<CardHeader>
+					<CardTitle>Analyze your resume</CardTitle>
+				</CardHeader>
+				<CardContent className="space-y-4">
+					<div className="space-y-2">
+						<label className="text-sm" htmlFor="jd">Job Description</label>
+						<Textarea id="jd" value={jd} onChange={(e) => setJd(e.target.value)} rows={8} placeholder="Paste the job description here" />
 					</div>
-				)}
-			</div>
+					<div className="space-y-2">
+						<label className="text-sm" htmlFor="resume">Upload Resume (PDF)</label>
+						<input id="resume" className="block w-full text-sm" type="file" accept="application/pdf" onChange={(e) => setFile(e.target.files?.[0] || null)} />
+					</div>
+					<Button disabled={loading || !file || !jd} onClick={onAnalyze}>{loading ? 'Analyzing…' : 'Analyze'}</Button>
+					{error && <div className="text-sm text-red-600" role="alert">{error}</div>}
+					{result && (
+						<div className="rounded-md border p-4 space-y-1">
+							<div className="text-sm text-muted-foreground">File</div>
+							<div className="font-medium">{result.filename}</div>
+							<div className="text-sm text-muted-foreground">ATS Score</div>
+							<div className="font-semibold">{(result.score * 100).toFixed(1)}%</div>
+							<div className="text-sm text-muted-foreground">Keyword Match</div>
+							<div className="font-semibold">{(result.keyword_match * 100).toFixed(1)}%</div>
+							<p className="text-sm text-muted-foreground mt-2">{result.summary}</p>
+						</div>
+					)}
+				</CardContent>
+			</Card>
 		</div>
 	)
 }

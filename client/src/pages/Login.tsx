@@ -2,6 +2,9 @@ import { FormEvent, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../state/auth'
 import { loginRequest } from '../lib/api'
+import { Input } from '../components/ui/input'
+import { Button } from '../components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card'
 
 export default function Login() {
 	const [email, setEmail] = useState('seeker@example.com')
@@ -27,23 +30,27 @@ export default function Login() {
 	}
 
 	return (
-		<div style={{ maxWidth: 420, margin: '60px auto', fontFamily: 'Inter, system-ui, Arial' }}>
-			<h2>Login</h2>
-			<form onSubmit={onSubmit}>
-				<div style={{ marginBottom: 12 }}>
-					<label>Email</label>
-					<input value={email} onChange={e => setEmail(e.target.value)} style={{ width: '100%', padding: 8 }} />
-				</div>
-				<div style={{ marginBottom: 12 }}>
-					<label>Password</label>
-					<input type="password" value={password} onChange={e => setPassword(e.target.value)} style={{ width: '100%', padding: 8 }} />
-				</div>
-				{error && <div style={{ color: 'red', marginBottom: 12 }}>{error}</div>}
-				<button disabled={loading} type="submit">{loading ? 'Logging in...' : 'Login'}</button>
-			</form>
-			<p style={{ marginTop: 16, color: '#666' }}>
-				Demo users: seeker@example.com / password, hr@example.com / password
-			</p>
+		<div className="min-h-[calc(100vh-64px)] flex items-center justify-center p-4">
+			<Card className="w-full max-w-md">
+				<CardHeader>
+					<CardTitle>Login</CardTitle>
+					<CardDescription>Use demo accounts: seeker@example.com / hr@example.com (password)</CardDescription>
+				</CardHeader>
+				<CardContent>
+					<form onSubmit={onSubmit} className="space-y-4">
+						<div className="space-y-2">
+							<label className="text-sm" htmlFor="email">Email</label>
+							<Input id="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="you@example.com" />
+						</div>
+						<div className="space-y-2">
+							<label className="text-sm" htmlFor="password">Password</label>
+							<Input id="password" type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="••••••••" />
+						</div>
+						{error && <div className="text-sm text-red-600" role="alert">{error}</div>}
+						<Button className="w-full" disabled={loading} type="submit">{loading ? 'Logging in…' : 'Login'}</Button>
+					</form>
+				</CardContent>
+			</Card>
 		</div>
 	)
 }
