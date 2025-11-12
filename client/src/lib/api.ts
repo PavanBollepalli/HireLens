@@ -5,9 +5,26 @@ const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000'
 
 export const api = axios.create({ baseURL: API_BASE })
 
+export type AuthResponse = {
+	access_token: string
+	role: User['role']
+	user_email: string
+	full_name?: string | null
+}
+
 export async function loginRequest(email: string, password: string) {
 	const res = await api.post('/auth/login', { email, password })
-	return res.data as { access_token: string; role: User['role']; user_email: string }
+	return res.data as AuthResponse
+}
+
+export async function signupRequest(params: {
+	email: string
+	password: string
+	role?: User['role']
+	full_name?: string
+}) {
+	const res = await api.post('/auth/signup', params)
+	return res.data as AuthResponse
 }
 
 export async function analyzeSingle(token: string, jd: string, file: File) {

@@ -20,9 +20,14 @@ export default function App() {
 								<Button size="sm">Open Dashboard</Button>
 							</Link>
 						) : (
-							<Link to="/login">
-								<Button size="sm">Login</Button>
-							</Link>
+							<>
+								<Link to="/signup">
+									<Button variant="outline" size="sm">Sign Up</Button>
+								</Link>
+								<Link to="/login">
+									<Button size="sm">Login</Button>
+								</Link>
+							</>
 						)}
 					</nav>
 				</div>
@@ -34,7 +39,7 @@ export default function App() {
 						<h1 className="text-4xl md:text-5xl font-bold tracking-tight">ATS Resume Analyzer for Job Seekers and HR</h1>
 						<p className="mt-4 text-muted-foreground text-lg">Paste a job description, upload resume(s), and get instant ATS scores, keyword coverage, and ranked candidates.</p>
 						<div className="mt-6 flex flex-wrap gap-3">
-							<Link to="/login"><Button className="gap-2">Get Started <ArrowRight className="h-4 w-4" /></Button></Link>
+							<Link to="/signup"><Button className="gap-2">Get Started <ArrowRight className="h-4 w-4" /></Button></Link>
 							<Link to="#features"><Button variant="outline">Learn More</Button></Link>
 						</div>
 					</div>

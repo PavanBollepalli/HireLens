@@ -1,9 +1,10 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr, Field
 from typing import List, Optional
+from .database import UserRole
 
 
 class LoginRequest(BaseModel):
-	email: str
+	email: EmailStr
 	password: str
 
 
@@ -12,6 +13,14 @@ class LoginResponse(BaseModel):
 	token_type: str = "bearer"
 	role: str
 	user_email: str
+	full_name: Optional[str] = None
+
+
+class SignupRequest(BaseModel):
+	email: EmailStr
+	password: str = Field(min_length=6)
+	full_name: Optional[str] = None
+	role: UserRole = UserRole.JOB_SEEKER
 
 
 class ATSResult(BaseModel):

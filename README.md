@@ -20,7 +20,8 @@ pip install -r requirements.txt
 uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-Environment variables (optional):
+Environment variables:
+- `DATABASE_URL` - PostgreSQL connection string (defaults to `postgresql://postgres:postgres@localhost:5432/hirelens`)
 - `JWT_SECRET` - secret for signing JWT tokens
 
 ## Frontend (React + Vite + TS)
@@ -35,9 +36,9 @@ npm run dev
 
 Open `http://localhost:5173`.
 
-## Demo Accounts
-- Job Seeker: `seeker@example.com` / `password`
-- HR: `hr@example.com` / `password`
+## Accounts
+- Visit `http://localhost:5173/signup` to create a Job Seeker or HR account.
+- If you prefer seeded credentials, insert users directly into the `users` table with hashed passwords (bcrypt via `passlib`).
 
 ## Features
 - Role-based login (Job Seeker, HR)

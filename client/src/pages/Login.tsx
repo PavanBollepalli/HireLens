@@ -1,5 +1,5 @@
 import { FormEvent, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../state/auth'
 import { loginRequest } from '../lib/api'
 import { Input } from '../components/ui/input'
@@ -20,7 +20,7 @@ export default function Login() {
 		setError(null)
 		try {
 			const res = await loginRequest(email, password)
-			login(res.access_token, { email: res.user_email, role: res.role })
+			login(res.access_token, { email: res.user_email, role: res.role, fullName: res.full_name ?? undefined })
 			navigate(res.role === 'hr' ? '/hr' : '/job-seeker')
 		} catch (err: any) {
 			setError(err?.response?.data?.detail || 'Login failed')
@@ -34,7 +34,7 @@ export default function Login() {
 			<Card className="w-full max-w-md">
 				<CardHeader>
 					<CardTitle>Login</CardTitle>
-					<CardDescription>Use demo accounts: seeker@example.com / hr@example.com (password)</CardDescription>
+					<CardDescription>Sign in with your credentials or create a new account below.</CardDescription>
 				</CardHeader>
 				<CardContent>
 					<form onSubmit={onSubmit} className="space-y-4">
@@ -47,6 +47,9 @@ export default function Login() {
 							<Input id="password" type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="••••••••" />
 						</div>
 						{error && <div className="text-sm text-red-600" role="alert">{error}</div>}
+						<div className="text-sm text-muted-foreground">
+							Don't have an account? <Link className="underline" to="/signup">Sign up</Link>
+						</div>
 						<Button className="w-full" disabled={loading} type="submit">{loading ? 'Logging in…' : 'Login'}</Button>
 					</form>
 				</CardContent>

@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import { Navigate } from 'react-router-dom'
 
-export type User = { email: string; role: 'job_seeker' | 'hr' }
+export type User = { email: string; role: 'job_seeker' | 'hr'; fullName?: string | null }
 
 type AuthContextType = {
 	user: User | null
