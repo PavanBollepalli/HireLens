@@ -1,9 +1,12 @@
 from pydantic import BaseModel
+from enum import Enum
+
+class UserRole(str, Enum):
+    job_seeker = "job_seeker"
+    employer = "employer"
 
 class User(BaseModel):
-    id:int
     name:str
     email:str
-    age:int
     goal:str
-    role:str
+    role:UserRole
