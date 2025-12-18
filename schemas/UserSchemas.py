@@ -5,7 +5,14 @@ class UserRole(str, Enum):
     job_seeker = "job_seeker"
     employer = "employer"
 
-class User(BaseModel):
+class UserCreate(BaseModel):
+    name:str
+    email:str
+    goal:str
+    role:UserRole
+
+class UserResponse(BaseModel):
+    id:int
     name:str
     email:str
     goal:str
